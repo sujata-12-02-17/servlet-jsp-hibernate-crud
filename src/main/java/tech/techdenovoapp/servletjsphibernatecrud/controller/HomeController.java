@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/")
+@WebServlet(value = "/")
 public class HomeController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private CustomerDao customerDao = CustomerDaoImpl.getInstance();
+    private CustomerDao customerDao = new CustomerDaoImpl();
 
     public HomeController(){}
 
@@ -24,7 +24,7 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Customer> customers = customerDao.findAllCustomers();
         req.setAttribute("customerList", customers);
-        req.getRequestDispatcher("home.jsp").forward(req,resp);
+        req.getRequestDispatcher("index.jsp").forward(req,resp);
     }
 
     @Override

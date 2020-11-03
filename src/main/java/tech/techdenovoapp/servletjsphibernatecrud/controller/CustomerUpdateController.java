@@ -10,36 +10,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(value = "/customer/register")
-public class CustomerRegistrationController extends HttpServlet {
+@WebServlet(value = "customer/update")
+public class CustomerUpdateController  extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-
     private CustomerDao customerDao = new CustomerDaoImpl();
-
-    public CustomerRegistrationController() {
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/").forward(req,resp);
+        super.doGet(req, resp);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String customerId =  req.getParameter("id");
-       String firstName = req.getParameter("fName");
-       String lastName =  req.getParameter("lName");
-       String email = req.getParameter("email");
+        super.doPost(req, resp);
 
-       Customer customer = new Customer(firstName, lastName, email);
-        if (customerId == null || customerId.isEmpty()){
-            customerDao.saveCustomer(customer);
-        } else {
-            Long id = Long.parseLong(customerId);
-            customer.setId(id);
-            customerDao.updateCustomer(customer);
-        }
+        String customerId =  req.getParameter("id");
+        String firstName = req.getParameter("fName");
+        String lastName =  req.getParameter("lName");
+        String email = req.getParameter("email");
+
+
+        Customer customer=new Customer(firstName,lastName,email);
+        Long id = Long.parseLong(customerId);
+        customer.setId(id);
+        customerDao.updateCustomer(customer);
         resp.sendRedirect(req.getContextPath()+ "/");
+
+
+
+
+
     }
 }
+
